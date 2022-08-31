@@ -2,6 +2,8 @@ const cors = require('cors');
 const express = require('express');
 const bodyParser = require('body-parser');
 
+const WebSockets = require('./utils/WebSocket');
+
 // Loads environment
 require('dotenv').config()
 
@@ -21,7 +23,14 @@ app.use(bodyParser.urlencoded({ extended: true }))
 require('./config/mongo')
 
 // Main route v1
-app.use('/api/v1', require('./routes'))
+app.use('/api/v1', require('./routes'));
+
+// Create Server
+const server = require('http').createServer(app);
+
+// Create Socket connection
+const io = require('socket.io')(server)
+io.on('connection', WebSockets.connection)
 
 // Start server
-app.listen(PORT, () => console.log(`Listening on port ${PORT}`))
+server.listen(PORT, () => console.log(`Listening on port ${PORT}`))
