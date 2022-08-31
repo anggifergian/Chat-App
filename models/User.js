@@ -42,7 +42,7 @@ function validateUser(data) {
 }
 
 module.exports = {
-    UserType: USER_TYPE,
+    UserTypes: USER_TYPE,
     User,
     validateUser,
 }
